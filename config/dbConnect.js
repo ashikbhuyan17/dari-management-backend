@@ -19,8 +19,7 @@ const dbConnect = async () => {
   // })
 
   mongoose
-    .connect(`mongodb+srv://ashik17:${process.env.PASSWORD}@cluster0.df83a.mongodb.net/${process.env.DATABASE_NAME}?retryWrites=true&w=majority`,
-      { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(`mongodb+srv://ashik17:${process.env.PASSWORD}@cluster0.df83a.mongodb.net/${process.env.DATABASE_NAME}?retryWrites=true&w=majority`)
     .then(() => console.log('Database Connected'))
     .catch(err => console.log(err));
 
