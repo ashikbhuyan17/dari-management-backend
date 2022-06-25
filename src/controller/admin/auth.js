@@ -20,7 +20,9 @@ exports.signup = (req, res) => {
             })
             _user.save((error, data) => {
                 if (error) {
-                    return res.status(400).json({ message: "something went wrong" })
+                    // return res.status(400).json({ message: "something went wrong" })
+                    return res.status(400).json({ message: error })
+
                 }
                 if (data) {
                     return res.status(201).json({ message: 'admin created successfully' })
