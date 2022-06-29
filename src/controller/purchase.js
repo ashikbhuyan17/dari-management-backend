@@ -3,7 +3,7 @@ const Purchase = require('../models/purchase')
 exports.createPurchase = (req, res) => {
     console.log(req.body)
     const { batch_no, purchase_type, description, quantity, total_price } = req.body
-    console.log(batch_no, purchase_type, description, quantity, total_price);
+    // console.log(batch_no, purchase_type, description, quantity, total_price);
     const purchase = new Purchase({
         batch_no,
         purchase_type,
@@ -21,17 +21,24 @@ exports.createPurchase = (req, res) => {
 
 }
 
-exports.getPurchaseAll = (req, res) => {
+exports.getPurchaseAll = async (req, res) => {
+    const PAGE_SIZE = 20;
+    const page = parseInt(req.query.page || '0')
+    const total = await Purchase.countDocuments({})
+    console.log("total", total);
     Purchase.find({})
-        .exec((err, data) => {
-            console.log(data);
-            console.log("err", err);
+        .limit(PAGE_SIZE)
+        .skip(PAGE_SIZE * page)
+        .exec((err, purchaseData) => {
 
             if (err) {
                 res.status(400).json({ msg: "not found" })
             }
-            if (data) {
-                res.status(200).json(data)
+            if (purchaseData) {
+                return res.status(200).json({
+                    totalPages: Math.ceil(total / PAGE_SIZE),
+                    purchaseData
+                })
             }
         })
 
@@ -55,3 +62,13 @@ exports.getPurchase = (req, res) => {
 }
 
 
+exports.deletePurchase = (req, res) => {
+    Purchase.deleteOne({ _id: req.params.id }, (err, data) => {
+        if (!err) {
+            return res.status(200).json({ message: ' Delete successfully' })
+        }
+        else {
+            console.log("error")
+        }
+    })
+}
