@@ -67,7 +67,7 @@ exports.getAnimal = async (req, res) => {
                         batch_no: d.batch_no,
                         bio_flock_plant_no: d.bio_flock_plant_no,
                         id_no: d.id_no,
-                        category_name: d?.category?.name,
+                        category_name: d.category.name,
                         category: d.category,
                         buying_price: d.buying_price,
                         fish_name: d.fish_name,
